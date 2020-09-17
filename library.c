@@ -59,6 +59,7 @@ void password()
 
 void mainMenu()
 {
+    int choice;
     system("clear");
 
     printf("**************Main Menu ****************\n\n");
@@ -74,6 +75,55 @@ void mainMenu()
     printf("*********************************\n");
 
     printf("enter your choice : ");
+    scanf("%d", &choice);
 
-    getchar();
+    if (choice==1)
+    {
+        //add books
+    }
+    else if (choice==2)
+    {
+        //view Books
+    }
+    else if (choice==3)
+    {
+        //search book
+    }
+    else if (choice==4)
+    {
+        // edit book
+    }
+    else if (choice==5)
+    {
+        //delete book
+    }
+    else if (choice==6)
+    {
+        //help
+    }
+    else if (choice==7)
+    {
+        exit(0);
+    }
+
+    else
+    {
+        printf("wrong choice\n try again \n");
+
+        fflush(stdin);
+        getchar();
+        mainMenu();
+        // mainMenu();
+        // if (count==2)
+        // {
+            exit (0);
+        // }
+        
+    }
+    
+    
+    
+    
+    
+    // getchar();
 }
