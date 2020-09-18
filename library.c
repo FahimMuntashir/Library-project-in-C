@@ -6,6 +6,7 @@ void password();
 void heading();
 void mainMenu();
 void addBook();
+void viewBooks();
 
 int count = 1;
 
@@ -98,7 +99,7 @@ void mainMenu()
     }
     else if (choice == 2)
     {
-        //view Books
+        viewBooks();
     }
     else if (choice == 3)
     {
@@ -197,4 +198,37 @@ void addBook()
     getchar();
 
     mainMenu();
+}
+
+
+void viewBooks()
+{
+
+    int count = 0;
+
+    system("clear");
+    fflush(stdin);
+    printf("\n\n ***************** View Books*****************\n\n");
+    printf("Id\tName\tTuthor\tQuantity\tRack No\n\n\n");
+
+   fp= fopen("books.txt", "rb");
+
+   while (fread(&add, sizeof(add),1, fp)==1)
+   {
+       printf("%d", add.ID);
+       printf("\t%s", add.Name);
+       printf("\t%s", add.Author);
+       printf("\t%d", add.Quantity);
+       printf("\t%d\n", add.RackNo);
+
+        count = count + add.Quantity;
+   }
+    printf("\n total books in the library : %d\n", count);
+    printf("press any key .......\n");
+   fflush(stdin);
+   getchar();
+
+//    mainMenu();
+   
+
 }
