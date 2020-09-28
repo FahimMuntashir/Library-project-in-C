@@ -9,6 +9,8 @@ void addBook();
 void viewBooks();
 void searchBook();
 void editBook();
+void deleteBook();
+
 
 int count = 1;
 
@@ -24,7 +26,7 @@ struct BOOK_INFO
 struct BOOK_INFO add;
 
 FILE *fp;
-
+FILE *file2;
 int main()
 {
     password();
@@ -113,7 +115,7 @@ void mainMenu()
     }
     else if (choice == 5)
     {
-        //delete book
+        deleteBook();
     }
     else if (choice == 6)
     {
@@ -224,6 +226,7 @@ void viewBooks()
 
         count = count + add.Quantity;
     }
+    fclose(fp);
     printf("\n total books in the library : %d\n", count);
     printf("press any key .......\n");
     fflush(stdin);
@@ -324,4 +327,73 @@ void editBook()
     getchar();
 
     mainMenu();
+}
+
+
+void deleteBook()
+{
+    int d, count = 0;;
+    system("clear"); 
+    printf("************* delete books ************** \n\n");
+
+    printf("enter Id for delete : ");
+    scanf("%d", &d);
+
+    fp = fopen("books.txt", "rb+");
+
+    rewind(fp);
+
+    while (fread(&add, sizeof(add), 1, fp)==1)
+    {
+        if (d==add.ID)
+        {
+            printf("book is available");
+
+            printf(" book name : %s\n", add.Name);
+            printf("rack no : %d\n", add.RackNo);
+
+            count = 1;
+
+        }
+        
+    }
+
+    if (count==0)
+    {
+        printf("book not found \n");
+    }
+    else
+    {
+        file2 = fopen("text.txt", "wb+");
+
+        rewind(fp);
+
+        while (fread(&add, sizeof(add),1, fp)==1)
+        {
+            if (d!= add.ID)
+            {
+                fseek(file2, ftell(file2)- sizeof(add),0);
+                fwrite(&add, sizeof(add), 1, file2);
+            }
+            
+        }
+        fclose(fp);
+        fclose(file2);
+
+        remove("books.txt");
+        rename("text.txt", "books.txt");
+
+        fp = fopen("books.txt", "rb");
+        fclose(fp);
+        
+    }
+
+    printf("press any key /..... \n");
+    fflush(stdin);
+    getchar();
+    mainMenu();
+
+    
+    
+    
 }
