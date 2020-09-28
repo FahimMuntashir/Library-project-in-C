@@ -8,6 +8,8 @@ void mainMenu();
 void addBook();
 void viewBooks();
 void searchBook();
+void editBook();
+
 int count = 1;
 
 struct BOOK_INFO
@@ -107,7 +109,7 @@ void mainMenu()
     }
     else if (choice == 4)
     {
-        // edit book
+        editBook();
     }
     else if (choice == 5)
     {
@@ -265,5 +267,61 @@ void searchBook()
     fflush(stdin);
     getchar();
 
-    // mainMenu();
+    mainMenu();
+}
+
+void editBook()
+{
+    int d;
+    int count = 0;
+    system("clear");
+
+    printf("******************* edit book ************** \n\n");
+
+    fp = fopen("books.txt", "rb+");
+
+    printf("enter ID : \n");
+
+    scanf("%d", &d);
+
+    while (fread(&add, sizeof(add), 1, fp) == 1)
+
+    {
+        if (d == add.ID)
+        {
+            printf("Id is available");
+
+            printf("ID: %d\n", add.ID);
+
+            printf("enter new name: ");
+            scanf("%s", add.Name);
+            printf("enter new author: ");
+            scanf("%s", add.Author);
+            printf("enter new quantity: ");
+            scanf("%d", &add.Quantity);
+            printf("enter new rack no : ");
+            scanf("%d", &add.RackNo);
+
+            fseek(fp, ftell(fp) - sizeof(add), 0);
+            fwrite(&add, sizeof(add), 1, fp);
+
+            fclose(fp);
+
+            count = 1;
+            break;
+        }
+    }
+
+    if (count = 0)
+    {
+        printf("id not match \n");
+    }
+    
+
+    printf("press any key ........ \n");
+
+    fflush(stdin);
+    getchar();
+
+    mainMenu();
 }
