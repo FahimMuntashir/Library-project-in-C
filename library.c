@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -10,6 +11,8 @@ void viewBooks();
 void searchBook();
 void editBook();
 void deleteBook();
+void help();
+void exitProg();
 
 
 int count = 1;
@@ -119,11 +122,11 @@ void mainMenu()
     }
     else if (choice == 6)
     {
-        //help
+        help();
     }
     else if (choice == 7)
     {
-        exit(0);
+        exitProg();
     }
 
     else
@@ -396,4 +399,36 @@ void deleteBook()
     
     
     
+}
+
+
+void help()
+{
+    system("clear");
+
+    printf("\n\n");
+    printf("this is a simple library projects\n");
+    printf("the password is <fahim>\n");
+    printf("you can add books, edit books and delete books \n\n");
+    printf("thank you very much for visiting \n\n");
+
+
+    fflush(stdin);
+    getchar();
+}
+
+
+void exitProg()
+{
+    system("clear");
+    printf("Thank you  !! \n\n");
+    printf("wait.......\n");
+
+    // for (int i = 0; i < 1e9; i++)
+    // {
+    // }
+    
+    sleep(2);
+
+    exit(0);
 }
