@@ -14,7 +14,6 @@ void deleteBook();
 void help();
 void exitProg();
 
-
 int count = 1;
 
 struct BOOK_INFO
@@ -30,6 +29,7 @@ struct BOOK_INFO add;
 
 FILE *fp;
 FILE *file2;
+
 int main()
 {
     password();
@@ -56,6 +56,8 @@ void password()
     {
         printf("\n\nLog in Successfully\n\n");
         printf("press any to ..... continue\n");
+
+        getchar();
     }
     else
     {
@@ -186,11 +188,11 @@ void addBook()
     fflush(stdin);
     scanf("%s", add.Author);
 
-    printf("enter quantity: ");
+    printf("Enter quantity: ");
     fflush(stdin);
     scanf("%d", &add.Quantity);
 
-    printf("Enter rack no: ");
+    printf("Enter Rack-no: ");
     fflush(stdin);
     scanf("%d", &add.RackNo);
 
@@ -230,12 +232,13 @@ void viewBooks()
         count = count + add.Quantity;
     }
     fclose(fp);
-    printf("\n total books in the library : %d\n", count);
-    printf("press any key .......\n");
+    printf("\n\nTotal books in the library : %d\n", count);
+    printf("\npress any key .......\n");
     fflush(stdin);
     getchar();
+    getchar();
 
-    //    mainMenu();
+    mainMenu();
 }
 
 void searchBook()
@@ -246,19 +249,19 @@ void searchBook()
 
     fp = fopen("books.txt", "rb");
 
-    printf("enter ID: \n");
+    printf("Enter ID: \n");
     scanf("%d", &count);
 
     while (fread(&add, sizeof(add), 1, fp) == 1)
     {
         if (count == add.ID)
         {
-            printf("\n\n Book is found.....\n");
+            printf("\nBook is found.....\n");
             printf("Id: %d\n", add.ID);
-            printf("Id: %s\n", add.Name);
-            printf("Id: %s\n", add.Author);
-            printf("Id: %d\n", add.Quantity);
-            printf("Id: %d\n", add.RackNo);
+            printf("Name: %s\n", add.Name);
+            printf("Author: %s\n", add.Author);
+            printf("Quantity: %d\n", add.Quantity);
+            printf("Rack no: %d\n\n", add.RackNo);
 
             flag = 1;
         }
@@ -269,8 +272,9 @@ void searchBook()
         printf("id not found\n");
     }
 
-    printf("press any key... \n ");
+    printf("\nPress any key... \n ");
     fflush(stdin);
+    getchar();
     getchar();
 
     mainMenu();
@@ -282,11 +286,11 @@ void editBook()
     int count = 0;
     system("clear");
 
-    printf("******************* edit book ************** \n\n");
+    printf("******************* Edit book ************** \n\n");
 
     fp = fopen("books.txt", "rb+");
 
-    printf("enter ID : \n");
+    printf("Enter ID : \n");
 
     scanf("%d", &d);
 
@@ -295,17 +299,17 @@ void editBook()
     {
         if (d == add.ID)
         {
-            printf("Id is available");
+            printf("Id is available\n\n");
 
             printf("ID: %d\n", add.ID);
 
-            printf("enter new name: ");
+            printf("Enter new name: ");
             scanf("%s", add.Name);
-            printf("enter new author: ");
+            printf("Enter new author: ");
             scanf("%s", add.Author);
-            printf("enter new quantity: ");
+            printf("Enter new quantity: ");
             scanf("%d", &add.Quantity);
-            printf("enter new rack no : ");
+            printf("Enter new rack no : ");
             scanf("%d", &add.RackNo);
 
             fseek(fp, ftell(fp) - sizeof(add), 0);
@@ -322,63 +326,62 @@ void editBook()
     {
         printf("id not match \n");
     }
-    
 
-    printf("press any key ........ \n");
+    printf("\n\nPress any key ........ \n");
 
     fflush(stdin);
+    getchar();
     getchar();
 
     mainMenu();
 }
 
-
 void deleteBook()
 {
-    int d, count = 0;;
-    system("clear"); 
+    int d, count = 0;
+    ;
+    system("clear");
     printf("************* delete books ************** \n\n");
 
-    printf("enter Id for delete : ");
+    printf("Enter Id for delete : ");
     scanf("%d", &d);
 
     fp = fopen("books.txt", "rb+");
 
     rewind(fp);
 
-    while (fread(&add, sizeof(add), 1, fp)==1)
+    while (fread(&add, sizeof(add), 1, fp) == 1)
     {
-        if (d==add.ID)
+        if (d == add.ID)
         {
-            printf("book is available");
+            printf("Book is available\n\n");
 
-            printf(" book name : %s\n", add.Name);
-            printf("rack no : %d\n", add.RackNo);
+            printf(" Book name : %s\n", add.Name);
+            printf("Rack no : %d\n", add.RackNo);
 
             count = 1;
-
         }
-        
     }
 
-    if (count==0)
+    if (count == 0)
     {
-        printf("book not found \n");
+        printf("Book not found \n");
     }
     else
     {
+        
+        
         file2 = fopen("text.txt", "wb+");
 
         rewind(fp);
 
-        while (fread(&add, sizeof(add),1, fp)==1)
+        while (fread(&add, sizeof(add), 1, fp) == 1)
         {
-            if (d!= add.ID)
+            if (d != add.ID)
             {
-                fseek(file2, ftell(file2)- sizeof(add),0);
+                fseek(file2, ftell(file2) - sizeof(add), 0);
                 fwrite(&add, sizeof(add), 1, file2);
             }
-            
         }
         fclose(fp);
         fclose(file2);
@@ -388,19 +391,14 @@ void deleteBook()
 
         fp = fopen("books.txt", "rb");
         fclose(fp);
-        
     }
 
     printf("press any key /..... \n");
     fflush(stdin);
     getchar();
+    getchar();
     mainMenu();
-
-    
-    
-    
 }
-
 
 void help()
 {
@@ -412,11 +410,9 @@ void help()
     printf("you can add books, edit books and delete books \n\n");
     printf("thank you very much for visiting \n\n");
 
-
     fflush(stdin);
     getchar();
 }
-
 
 void exitProg()
 {
@@ -427,7 +423,7 @@ void exitProg()
     // for (int i = 0; i < 1e9; i++)
     // {
     // }
-    
+
     sleep(2);
 
     exit(0);
