@@ -3,18 +3,18 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define TRIES 3
+
 void password();
 void heading();
 void mainMenu();
-void addBook();
+int addBook();
 void viewBooks();
-void searchBook();
-void editBook();
+int searchBook();
+int editBook();
 void deleteBook();
 void help();
 void exitProg();
-
-int count = 1;
 
 struct BOOK_INFO
 {
@@ -46,109 +46,98 @@ void password()
 {
     heading();
 
+    int count = 1;
     char pass[] = "fahim";
-
     char ch[10];
 
-    printf("\tEnter Password : ");
-    scanf("%s", ch);
-    if (strcmp(pass, ch) == 0)
-    {
-        printf("\n\nLog in Successfully\n\n");
-        printf("press any to ..... continue\n");
+    printf("\tEnter Password : \n");
 
-        getchar();
-    }
-    else
+    gets(ch);
+
+    while(strcmp(ch, pass) != 0)
     {
-        if (count == 3)
+        count++;
+
+        if (count > TRIES)
         {
             exit(1);
         }
 
         printf("\t try again\n");
-        count++;
-        fflush(stdin);
-        getchar();
-        password();
+        gets(ch);
     }
 
-    fflush(stdin);
+    printf("\n\nLog in Successfully\n\n"
+           "press any to ..... continue\n");
+
     getchar();
 
     // main menu
-
     mainMenu();
 }
 
 void mainMenu()
-
 {
-    int choice;
+    int choice = 0;
     system("clear");
 
-    printf("**************Main Menu ****************\n\n");
+    while(1)
+    {
 
-    printf("1. Add book\n");
-    printf("2. View book list\n");
-    printf("3. Search book\n");
-    printf("4. Edit book\n");
-    printf("5. Delete book\n");
-    printf("6. Help\n");
-    printf("7. Exit\n\n");
+        printf("**************Main Menu ****************\n\n");
 
-    printf("*********************************\n");
+        printf("1. Add book\n"
+               "2. View book list\n"
+               "3. Search book\n"
+               "4. Edit book\n"
+               "5. Delete book\n"
+               "6. Help\n"
+               "7. Exit\n\n");
 
-    printf("enter your choice : ");
-    scanf("%d", &choice);
+        printf("*********************************\n");
 
-    if (choice == 1)
-    {
-        addBook();
-    }
-    else if (choice == 2)
-    {
-        viewBooks();
-    }
-    else if (choice == 3)
-    {
-        searchBook();
-    }
-    else if (choice == 4)
-    {
-        editBook();
-    }
-    else if (choice == 5)
-    {
-        deleteBook();
-    }
-    else if (choice == 6)
-    {
-        help();
-    }
-    else if (choice == 7)
-    {
-        exitProg();
-    }
-
-    else
-    {
-        printf("wrong choice\n try again \n");
-
-        fflush(stdin);
+        printf("enter your choice : ");
+        scanf("%d", &choice);
         getchar();
-        mainMenu();
-        // mainMenu();
-        // if (count==2)
-        // {
-        exit(0);
-        // }
-    }
 
-    // getchar();
+
+        if (choice == 1)
+        {
+            addBook();
+        }
+        else if (choice == 2)
+        {
+            viewBooks();
+        }
+        else if (choice == 3)
+        {
+            searchBook();
+        }
+        else if (choice == 4)
+        {
+            editBook();
+        }
+        else if (choice == 5)
+        {
+            deleteBook();
+        }
+        else if (choice == 6)
+        {
+            help();
+        }
+        else if (choice == 7)
+        {
+            break;
+        }
+        else
+        {
+            printf("wrong choice\n try again \n");
+        }
+    }
+    exitProg();
 }
 
-void addBook()
+int addBook()
 {
     int d, count = 0;
     system("clear");
@@ -167,15 +156,8 @@ void addBook()
         if (d == add.ID)
         {
             printf("this book is already in library");
-            count = 1;
+            return 0;
         }
-    }
-
-    if (count == 1)
-    {
-        fflush(stdin);
-        getchar();
-        mainMenu();
     }
 
     add.ID = d;
@@ -201,21 +183,16 @@ void addBook()
 
     fclose(fp);
 
-    printf("ADD book successfully\n\n");
+    printf("Book ADDED successfully\n\n");
 
-    fflush(stdin);
-    getchar();
-
-    mainMenu();
+    return 0;
 }
 
 void viewBooks()
 {
-
     int count = 0;
 
     system("clear");
-    fflush(stdin);
     printf("\n\n ***************** View Books*****************\n\n");
     printf("Id\tName\tTuthor\tQuantity\tRack No\n\n\n");
 
@@ -234,16 +211,13 @@ void viewBooks()
     fclose(fp);
     printf("\n\nTotal books in the library : %d\n", count);
     printf("\npress any key .......\n");
-    fflush(stdin);
-    getchar();
-    getchar();
 
-    mainMenu();
+    getchar();
 }
 
-void searchBook()
+int searchBook()
 {
-    int count, flag = 0;
+    int count;
     system("clear");
     printf("***********Search books**********\n\n");
 
@@ -251,6 +225,7 @@ void searchBook()
 
     printf("Enter ID: \n");
     scanf("%d", &count);
+    getchar();
 
     while (fread(&add, sizeof(add), 1, fp) == 1)
     {
@@ -263,24 +238,21 @@ void searchBook()
             printf("Quantity: %d\n", add.Quantity);
             printf("Rack no: %d\n\n", add.RackNo);
 
-            flag = 1;
+            printf("\nPress any key... \n ");
+            getchar();
+
+            return 0;
         }
     }
 
-    if (flag == 0)
-    {
-        printf("id not found\n");
-    }
-
+    printf("ID not found\n");
     printf("\nPress any key... \n ");
-    fflush(stdin);
-    getchar();
     getchar();
 
-    mainMenu();
+    return 0;
 }
 
-void editBook()
+int editBook()
 {
     int d;
     int count = 0;
@@ -293,9 +265,9 @@ void editBook()
     printf("Enter ID : \n");
 
     scanf("%d", &d);
+    getchar();
 
     while (fread(&add, sizeof(add), 1, fp) == 1)
-
     {
         if (d == add.ID)
         {
@@ -309,42 +281,39 @@ void editBook()
             scanf("%s", add.Author);
             printf("Enter new quantity: ");
             scanf("%d", &add.Quantity);
+            getchar();
             printf("Enter new rack no : ");
             scanf("%d", &add.RackNo);
+            getchar();
 
             fseek(fp, ftell(fp) - sizeof(add), 0);
             fwrite(&add, sizeof(add), 1, fp);
 
             fclose(fp);
 
-            count = 1;
-            break;
+            printf("\n\nPress any key ........ \n");
+            getchar();
+            return 0;
         }
     }
 
-    if (count = 0)
-    {
-        printf("id not match \n");
-    }
-
+    printf("id not match \n");
     printf("\n\nPress any key ........ \n");
-
-    fflush(stdin);
-    getchar();
     getchar();
 
-    mainMenu();
+    return 0;
 }
 
 void deleteBook()
 {
     int d, count = 0;
-    ;
+
     system("clear");
     printf("************* delete books ************** \n\n");
 
     printf("Enter Id for delete : ");
     scanf("%d", &d);
+    getchar();
 
     fp = fopen("books.txt", "rb+");
 
@@ -369,8 +338,8 @@ void deleteBook()
     }
     else
     {
-        
-        
+
+
         file2 = fopen("text.txt", "wb+");
 
         rewind(fp);
@@ -396,8 +365,7 @@ void deleteBook()
     printf("press any key /..... \n");
     fflush(stdin);
     getchar();
-    getchar();
-    mainMenu();
+
 }
 
 void help()
@@ -409,20 +377,13 @@ void help()
     printf("the password is <fahim>\n");
     printf("you can add books, edit books and delete books \n\n");
     printf("thank you very much for visiting \n\n");
-
-    fflush(stdin);
-    getchar();
 }
 
 void exitProg()
 {
     system("clear");
-    printf("Thank you  !! \n\n");
+    printf("Thank you  !!\n\n");
     printf("wait.......\n");
-
-    // for (int i = 0; i < 1e9; i++)
-    // {
-    // }
 
     sleep(2);
 
